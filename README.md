@@ -34,4 +34,6 @@ First big decision: This game will not fully rely on an LLM to generate its map.
 
 # Day 2 (Nov 18 2024)
 
-Today I'll research and try to find the best technique to generate maps for my game. 
+After looking at roblox devforums I found this github repo: https://github.com/Nyapaw/Roblox/tree/master/Dungeon
+
+It includes code to generate a dungeon/maze in 2d, and it looks promising with a good amount of configuration. Later I'll see if I can port it into a 3d version.
