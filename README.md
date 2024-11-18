@@ -32,7 +32,7 @@
   -   Introduce dynamic events that can alter gameplay, such as sudden environmental changes or timed challenges that require players to work together.
 
 
-## How it'll be Inspired by The Backrooms and FNAF:
+## Inspiration from FNAF/The Backrooms
   - **Ambiance and Sound Design**: 
     - Eerie soundscapes with distant machinery, soft whispers, or unsettling static to create an immersive experience. Layer all of these sounds together to create an immersive environment.   
   - **Visual Aesthetics**: 
