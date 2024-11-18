@@ -32,7 +32,7 @@
   -   Introduce dynamic events that can alter gameplay, such as sudden environmental changes or timed challenges that require players to work together.
 
 
-## Enhancements Inspired by "The Backrooms" and "Five Nights at Freddy's":
+## How it'll be Inspired by The Backrooms and FNAF:
   - **Ambiance and Sound Design**: 
     - Use eerie soundscapes with distant machinery, soft whispers, or unsettling static to create an immersive experience. Layer these sounds to maintain a constant sense of unease.
     - Incorporate unique sounds that signal the presence of monsters, making players hyper-aware of their surroundings.
@@ -61,7 +61,7 @@
   - **Isolation and Disorientation**: 
     - Design areas that feel empty and disorienting, with long corridors and dead ends, creating a sense of isolation.
     - Implement non-Euclidean designs where spaces don’t logically connect, enhancing the feeling of being trapped in an unending nightmare. ```markdown
-## Additional Features and Considerations:
+## Additional Features:
   - **Player Feedback Mechanism**: Implement a system for players to provide feedback on their experiences, which can be used to refine gameplay and enhance future updates.
   - **Community Engagement**: Create a platform for players to share their experiences, theories, and fan art, fostering a community around the game.
   - **Regular Updates**: Plan for periodic updates that introduce new content, such as additional maps, monsters, or gameplay mechanics, to keep the player base engaged.
