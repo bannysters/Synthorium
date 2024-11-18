@@ -2,11 +2,11 @@
 
 ## This is my dev notes/documentation of my progress and workflow on my roblox horror game. 
 ## The goals I've set for myself are as follows:
-  -- Create a well polished and fun horror game
-  -- Build map generation, character generation, and gameplay dynamics using AI prompt engineering or other techniques
-  -- Make the game replayable, fun with friends, and rewarding
-  -- Make sure it has VR support
-  -- Most importantly, make it SCARY
+  -   Create a well polished and fun horror game
+  -   Build map generation, character generation, and gameplay dynamics using AI prompt engineering or other techniques
+  -   Make the game replayable, fun with friends, and rewarding
+  -   Make sure it has VR support
+  - Most importantly, make it SCARY
 
 
 # Day 1 (Nov 17 2024)
