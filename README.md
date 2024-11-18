@@ -1,5 +1,3 @@
-# Synthorium Dev Notes
-
 ## This is the documentation of my progress and thought processs while creating my horror game
 
 ## The rules I'm giving myself while making the game:
