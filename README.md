@@ -34,11 +34,9 @@
 
 ## How it'll be Inspired by The Backrooms and FNAF:
   - **Ambiance and Sound Design**: 
-    - Use eerie soundscapes with distant machinery, soft whispers, or unsettling static to create an immersive experience. Layer these sounds to maintain a constant sense of unease.
-    - Incorporate unique sounds that signal the presence of monsters, making players hyper-aware of their surroundings.
-  
+    - Eerie soundscapes with distant machinery, soft whispers, or unsettling static to create an immersive experience. Layer all of these sounds together to create an immersive environment.   
   - **Visual Aesthetics**: 
-    - Use a dull color palette with muted colors and lighting to create a sense of abandonment and decay. Yellowed or flickering lights can evoke the feeling of being trapped in a lim inal space.
+    - Dull colors with muted colors and lighting to create a sense of abandonment and decay. Yellowed or flickering lights can evoke the feeling of being trapped in a liminal space.
     - Design rooms that feel familiar but with strange or unsettling alterations, such as warped dimensions or impossible layouts.
 
   - **Gameplay Mechanics**: 
