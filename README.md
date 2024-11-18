@@ -59,14 +59,6 @@
   - **Isolation and Disorientation**: 
     - Design areas that feel empty and disorienting, with long corridors and dead ends, creating a sense of isolation.
     - Implement non-Euclidean designs where spaces don’t logically connect, enhancing the feeling of being trapped in an unending nightmare. ```markdown
-## Additional Features:
-  - **Player Feedback Mechanism**: Implement a system for players to provide feedback on their experiences, which can be used to refine gameplay and enhance future updates.
-  - **Community Engagement**: Create a platform for players to share their experiences, theories, and fan art, fostering a community around the game.
-  - **Regular Updates**: Plan for periodic updates that introduce new content, such as additional maps, monsters, or gameplay mechanics, to keep the player base engaged.
-  - **Accessibility Options**: Ensure the game is accessible to a wider audience by including options for colorblind players, adjustable difficulty levels, and customizable controls.
-  - **Marketing Strategy**: Develop a marketing plan that includes teasers, trailers, and community events to build anticipation and excitement leading up to the game's release.
-  - **Testing and Quality Assurance**: Prioritize thorough testing phases to identify and fix bugs, ensuring a smooth launch and positive player experience.
-  - **Monetization Strategy**: Consider potential monetization options, such as cosmetic DLCs or expansions, while ensuring that the core gameplay remains enjoyable without paywalls.
 
 # Day 1 (Nov 17 2024)
 
