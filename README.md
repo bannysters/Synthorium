@@ -32,34 +32,6 @@
   -   Introduce dynamic events that can alter gameplay, such as sudden environmental changes or timed challenges that require players to work together.
 
 
-## Inspiration from FNAF/The Backrooms
-  - **Ambiance and Sound Design**: 
-    - Eerie soundscapes with distant machinery, soft whispers, or unsettling static to create an immersive experience. Layer all of these sounds together to create an immersive environment.   
-  - **Visual Aesthetics**: 
-    - Dull colors with muted colors and lighting to create a sense of abandonment and decay. Yellowed or flickering lights can evoke the feeling of being trapped in a liminal space.
-    - Design rooms that feel familiar but with strange or unsettling alterations, such as warped dimensions or impossible layouts.
-
-  - **Gameplay Mechanics**: 
-    - Introduce limited resources, such as a finite amount of light or battery for flashlights, to heighten tension as players navigate the dark.
-    - Incorporate a camera system that allows players to monitor areas, but make it unreliable or glitchy, leading to moments of vulnerability.
-    - Include objectives that require players to escape or hide from monsters, enhancing the feeling of being hunted.
-
-  - **Narrative Elements**: 
-    - Use notes, audio logs, or environmental storytelling to reveal the backstory in a non-linear way, creating intrigue and keeping players engaged.
-    - Tailor elements of the game based on players' survey responses, including specific fears or experiences that manifest in the environment or gameplay.
-
-  - **Dynamic Threats**: 
-    - Create monsters with distinct patterns or behaviors, making them unpredictable and reactive to players’ movements or sounds.
-    - Introduce traps or environmental threats that players must navigate, such as collapsing floors, sudden darkness, or disorienting maze-like areas.
-
-  - **Replayability Elements**: 
-    - Have random encounters with monsters or events that change each playthrough, ensuring no two experiences are the same.
-    - Incorporate different endings based on players’ choices or actions throughout the game, encouraging exploration and experimentation.
-
-  - **Isolation and Disorientation**: 
-    - Design areas that feel empty and disorienting, with long corridors and dead ends, creating a sense of isolation.
-    - Implement non-Euclidean designs where spaces don’t logically connect, enhancing the feeling of being trapped in an unending nightmare. ```markdown
-
 # Day 1 (Nov 17 2024)
 
 First, I wanted to find a fast and reliable LLM to use for prompt engineering later, because I knew it'd come up eventually. After some research, I came across groq, which worked perfectly from Roblox Studio, because I just had to send a HTTP Get request. It responded almost instantly, and I knew it'd work well for the job. 
