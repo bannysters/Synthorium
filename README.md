@@ -45,3 +45,9 @@ First big decision: This game will not fully rely on an LLM to generate its map.
 After looking at Roblox devforums I found this GitHub repo: https://github.com/Nyapaw/Roblox/tree/master/Dungeon
 
 It includes code to generate a dungeon/maze in 2D, and it looks promising with a good amount of configuration. Later I'll see if I can port it into a 3D version.
+
+# Day 3 (Nov 19 2024)
+
+Wrote my own lua code to automatically generate a map, adding randomization and branching rooms to keep it natural. 
+
+Got the code to work on roblox and actually create a building, now I just have to make it interconnected and I'm golden.
