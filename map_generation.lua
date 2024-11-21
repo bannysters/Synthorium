@@ -6,6 +6,8 @@ local branching_chance = 1/2
 local BRANCHES_MIN = 1
 local BRANCHES_MAX = 2
 
+local render_empty_space = false
+
 math.randomseed(os.time())
 
 local function trim_map(game_map)
@@ -364,7 +366,9 @@ local function init()
 		for row, row_data in ipairs(map_vectors) do
 			for column, column_data in ipairs(row_data) do
 				local status = map_vectors[row][column][3]
-
+				if status == "." and render_empty_space == false then
+					continue
+				end
 				local obj = Instance.new("Part", mapModel)
 				obj.Size = Vector3.new(1, 1, 1)
 				obj.Anchored = true -- 
