@@ -149,24 +149,28 @@ local function add_branch(game_map, vector_list, room_size_x, room_size_y, room_
 		local branch_size_y = math.random(math.floor(map_size / 20), room_size_y)
 
 		local branch_origin_x =
-			math.random(math.max(1, room_origin_x - branch_size_x), math.min(map_size, room_origin_x + room_size_x))
+			math.random(
+				math.max(1, room_origin_x - branch_size_x), 
+				math.min(map_size, room_origin_x + room_size_x)
+			)
+		
 		local branch_origin_y =
-			math.random(math.max(1, room_origin_y - branch_size_y), math.min(map_size, room_origin_y + room_size_y))
+			math.random(
+				math.max(1, room_origin_y - branch_size_y), 
+				math.min(map_size, room_origin_y + room_size_y)
+			)
 
 		if branch_origin_x >= 1 and branch_origin_x <= map_size and branch_origin_y >= 1 and branch_origin_y <= map_size then
 			local overlap = false
 			for x = branch_origin_x, branch_origin_x + branch_size_x - 1 do
 				for y = branch_origin_y, branch_origin_y + branch_size_y - 1 do
 					if x >= 1 and x <= map_size and y >= 1 and y <= map_size then
-						if game_map[y][x][3] == "#" or game_map[y][x][3] == "/" then
-							overlap = true
-							break
-						end
+						overlap = game_map[y][x][3] == "#" or game_map[y][x][3] == "/"
+						if overlap then break end
 					end
 				end
-				if overlap then
-					break
-				end
+				
+				if overlap then break end
 			end
 
 			if not overlap then
