@@ -1,8 +1,8 @@
-local map_size = 30 -- in studs
+local map_size = 500 -- in studs
 local ROOMS = 10
-local ROBLOX = false -- enable if using in roblox studio
+local ROBLOX = true -- enable if using in roblox studio
 
-local branching_chance = 1/2
+local branching_chance = 1/5
 local BRANCHES_MIN = 4
 local BRANCHES_MAX = 8
 
@@ -155,7 +155,7 @@ local function add_branch(game_map, vector_list, room_size_x, room_size_y, room_
 				math.max(1, room_origin_x - branch_size_x), 
 				math.min(map_size, room_origin_x + room_size_x)
 			)
-		
+
 		local branch_origin_y =
 			math.random(
 				math.max(1, room_origin_y - branch_size_y), 
@@ -171,7 +171,7 @@ local function add_branch(game_map, vector_list, room_size_x, room_size_y, room_
 						if overlap then break end
 					end
 				end
-				
+
 				if overlap then break end
 			end
 
@@ -192,7 +192,7 @@ local function add_branch(game_map, vector_list, room_size_x, room_size_y, room_
 end
 
 function safe_index(table, x, y, z)
-    return table[x] and table[x][y] and table[x][y][z] or nil
+	return table[x] and table[x][y] and table[x][y][z] or nil
 end
 
 local function generate_room_vectors(game_map, room_size, priority, ignore_priority, room_iter, room_contents)
@@ -201,13 +201,13 @@ local function generate_room_vectors(game_map, room_size, priority, ignore_prior
 	while not found do
 		local vector_list = {}
 		local branches = 0
-		
+
 		local has_branches = math.random(0, 1) < branching_chance
-		
+
 		if has_branches then
 			branches = math.random(BRANCHES_MIN, BRANCHES_MAX)
 		end
-		
+
 		local room_size_x = room_size[1]
 		local room_size_y = room_size[2]
 		local min_x = 1
@@ -223,8 +223,8 @@ local function generate_room_vectors(game_map, room_size, priority, ignore_prior
 					if not ((game_map[y][x][3] == "#" or game_map[y][x][3] == "/") and not has_branches)then
 						table.insert(vector_list, {x, y, "#"})
 					end
-					
-					
+
+
 				end
 			end
 		end
@@ -239,21 +239,21 @@ local function generate_room_vectors(game_map, room_size, priority, ignore_prior
 		found = returnMax(quadrants) == priority or ignore_priority == true
 
 		if found then
-	  	room_contents[room_iter] = {}
-			
-		  for v = 1, #vector_list do
-			  if vector_list[v][3] == "#" then
+			room_contents[room_iter] = {}
+
+			for v = 1, #vector_list do
+				if vector_list[v][3] == "#" then
 
 					local x = vector_list[v][1]
 					local y = vector_list[v][2]
-					
-	
+
+
 					table.insert(room_contents[room_iter], {x, y})
-					
-					
+
+
 				end
 			end
-			
+
 			return vector_list
 		end
 	end
@@ -278,20 +278,13 @@ end
 
 
 -- Helper function to check if a table contains a specific value
-function table.contains(table, value)
-    for _, v in ipairs(table) do
-        if v[1] == value[1] and v[2] == value[2] then
-            return true
-        end
-    end
-    return false
-end
+
 
 local function get_exposed_walls(game_map, room_contents)
 	local exposed_walls = {}
 	for room = 1, #room_contents do
 		exposed_walls[room] = {}
-		
+
 		for vector = 1, #room_contents[room] do
 			local x = room_contents[room][vector][1]
 			local y = room_contents[room][vector][2]
@@ -305,11 +298,11 @@ local function get_exposed_walls(game_map, room_contents)
 
 
 			local VectorIsAWall = game_map[x][y][3] == "#" 
-			
+
 			local WallIsExposed = above == '.' or below == '.' or right == '.' or left == '.'
 
 			if VectorIsAWall and WallIsExposed then
-         table.insert(exposed_walls[room], {x, y})
+				table.insert(exposed_walls[room], {x, y})
 			end
 		end
 	end
@@ -323,16 +316,16 @@ function pathfind(map, start, target)
 
 	local targetx = target[1]
 	local targety = target[2]
-  -- print("Pathfinding from ("..startx..", "..starty..") to ("..targetx..", "..targety..")")
+	-- print("Pathfinding from ("..startx..", "..starty..") to ("..targetx..", "..targety..")")
 	return nil
 end
 
 local function generate_map(ROOMS)
 	local game_map = {}
 	local room_contents = {}
-	
+
 	set_default_map(game_map)
-	
+
 	for _ = 1, ROOMS do
 		local quadrant_data = enum_map_quadrants(game_map)
 		local priority = returnMin(quadrant_data)
@@ -344,7 +337,7 @@ local function generate_map(ROOMS)
 				empty = empty + 1
 			end
 		end
-		
+
 
 		local vector_array = generate_room_vectors(game_map, rand_size(), priority, empty > 1, _, room_contents)
 		draw_vectors(game_map, vector_array)
@@ -366,44 +359,44 @@ local function generate_map(ROOMS)
 	paths = {}
 
 	for RoomIterA = 1, #exposed_walls do
-	    for RoomIterB = 1, #exposed_walls do
-	
-	        if RoomIterB ~= RoomIterA then
-	            -- room A is the starting room
-	            -- room B is the target room
-	
-	            local roomA = exposed_walls[RoomIterA] 
-	            local roomB = exposed_walls[RoomIterB]
-	
-	            -- now try pathfinding from every wall 
-	            for WallA = 1, #roomA do
-	                for WallB = 1, #roomB do
-	                    local start = roomA[WallA] -- This is {x, y, v} for room A
-											
-	                    local target = roomB[WallB] -- This is {x, y, v} for room B
+		for RoomIterB = 1, #exposed_walls do
+
+			if RoomIterB ~= RoomIterA then
+				-- room A is the starting room
+				-- room B is the target room
+
+				local roomA = exposed_walls[RoomIterA] 
+				local roomB = exposed_walls[RoomIterB]
+
+				-- now try pathfinding from every wall 
+				for WallA = 1, #roomA do
+					for WallB = 1, #roomB do
+						local start = roomA[WallA] -- This is {x, y, v} for room A
+
+						local target = roomB[WallB] -- This is {x, y, v} for room B
 
 
-											local startx = start[1]
-											local starty = start[2]
+						local startx = start[1]
+						local starty = start[2]
 
-											local targetx = target[1]
-											local targety = target[2]
-											
-	                    local result = pathfind(game_map, {startx, starty}, {targetx, targety})
-	
-	                    if result then
-	                        table.insert(paths, result)
-	                    end
-	                end
-	            end
-	        end
+						local targetx = target[1]
+						local targety = target[2]
 
-					
-	    end
+						local result = pathfind(game_map, {startx, starty}, {targetx, targety})
+
+						if result then
+							table.insert(paths, result)
+						end
+					end
+				end
+			end
+
+
+		end
 	end
 
 	print("Paths found between rooms: " .. #paths)
-	
+
 	return trimmed, quadrants
 end
 
@@ -434,7 +427,7 @@ end
 
 
 local function init()
-	
+
 
 	local start_time = os.clock() 
 	local map_vectors, quadrants = generate_map(ROOMS) 
@@ -476,7 +469,7 @@ local function init()
 
 				obj.Parent = mapModel
 
-	
+
 			end
 		end
 
@@ -491,8 +484,8 @@ local function init()
 
 
 		-- Parent the entire model to the workspace
-		mapModel.Parent = game.Workspace
-		
+		mapModel.Parent = game.Workspace.World
+
 
 	else
 		print_map(map_vectors)
