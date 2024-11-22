@@ -1,34 +1,23 @@
-local map_size = 500 -- in studs
-local ROOMS = 10
-local ROBLOX = true -- enable if using in roblox studio
+local map_size = 500             -- in studs
+local ROOMS = 10                 -- amount of rooms (10 is usually fine)
+local ROBLOX = true              -- enable if using in roblox studio
 
-local branching_chance = 1/5
-local BRANCHES_MIN = 4
-local BRANCHES_MAX = 8
+local branching_chance = 1/5     -- chance that a room being generated will have branches off of it
+local BRANCHES_MIN = 4           -- minimum branch partitions
+local BRANCHES_MAX = 8           -- maximum branch partitions
 
-local render_empty_space = false
+local render_empty_space = false -- whether or not to render empty floorspace in roblox
 
+local start_time = os.clock()    -- timer
+math.randomseed(os.time())       -- make sure math.random is actually random
 
-math.randomseed(os.time())
-
-
-local function trim_map(game_map)
-	for i = 1, map_size do
-		game_map[i][1][3] = "#"
-		game_map[1][i][3] = "#"
-		game_map[i][map_size][3] = "#"
-		game_map[map_size][i][3] = "#"
-	end
-
-	return game_map
-end
-
-local function carve_map(game_map)
-	local carving = {}
+local function carve_and_trim_map(game_map)
+	local temp = {}
+	
 	for x = 1, map_size do
-		carving[x] = {}
+		temp[x] = {}
 		for y = 1, map_size do
-			carving[x][y] = {game_map[x][y][1], game_map[x][y][2], game_map[x][y][3]}
+			temp[x][y] = {game_map[x][y][1], game_map[x][y][2], game_map[x][y][3]}
 		end
 	end
 
@@ -42,12 +31,19 @@ local function carve_map(game_map)
 			local right = x < map_size and game_map[x + 1][y][3] or nil
 
 			if above == "#" and below == "#" and left == "#" and right == "#" then
-				carving[x][y][3] = "/"
+				temp[x][y][3] = "/"
 			end
 		end
 	end
 
-	return carving
+	for i = 1, map_size do
+		temp[i][1][3] = "#"
+		temp[1][i][3] = "#"
+		temp[i][map_size][3] = "#"
+		temp[map_size][i][3] = "#"
+	end
+
+	return temp
 end
 
 local function get_quadrant(x, y)
@@ -75,7 +71,7 @@ local function get_quadrant(x, y)
 	end
 end
 
-local function enum_map_quadrants(map_array)
+local function enum_map_quadrants(map_array) 
 	local quadrants = {0, 0, 0, 0}
 
 	for x = 1, #map_array do
@@ -266,7 +262,6 @@ local function rand_size()
 	}
 end
 
-
 local function set_default_map(game_map) 
 	for x = 1, map_size do
 		game_map[x] = {}
@@ -275,9 +270,6 @@ local function set_default_map(game_map)
 		end
 	end
 end
-
-
--- Helper function to check if a table contains a specific value
 
 
 local function get_exposed_walls(game_map, room_contents)
@@ -317,87 +309,19 @@ function pathfind(map, start, target)
 	local targetx = target[1]
 	local targety = target[2]
 	-- print("Pathfinding from ("..startx..", "..starty..") to ("..targetx..", "..targety..")")
+	
 	return nil
 end
 
-local function generate_map(ROOMS)
-	local game_map = {}
-	local room_contents = {}
-
-	set_default_map(game_map)
-
-	for _ = 1, ROOMS do
-		local quadrant_data = enum_map_quadrants(game_map)
-		local priority = returnMin(quadrant_data)
-
-		local empty = 0
-
-		for i = 1, 4 do
-			if quadrant_data[i] == 0 then
-				empty = empty + 1
-			end
-		end
-
-
-		local vector_array = generate_room_vectors(game_map, rand_size(), priority, empty > 1, _, room_contents)
-		draw_vectors(game_map, vector_array)
-	end
-
-	local carved = carve_map(game_map)
-	local trimmed = trim_map(carved)
-
-	local quadrants = enum_map_quadrants(trimmed)
-
-
-	local exposed_walls = get_exposed_walls(game_map, room_contents)
-
-
-	for room = 1, #exposed_walls do
-		print("Room " .. room .. " exposed walls: " .. #exposed_walls[room])
-	end
-
-	paths = {}
-
-	for RoomIterA = 1, #exposed_walls do
-		for RoomIterB = 1, #exposed_walls do
-
-			if RoomIterB ~= RoomIterA then
-				-- room A is the starting room
-				-- room B is the target room
-
-				local roomA = exposed_walls[RoomIterA] 
-				local roomB = exposed_walls[RoomIterB]
-
-				-- now try pathfinding from every wall 
-				for WallA = 1, #roomA do
-					for WallB = 1, #roomB do
-						local start = roomA[WallA] -- This is {x, y, v} for room A
-
-						local target = roomB[WallB] -- This is {x, y, v} for room B
-
-
-						local startx = start[1]
-						local starty = start[2]
-
-						local targetx = target[1]
-						local targety = target[2]
-
-						local result = pathfind(game_map, {startx, starty}, {targetx, targety})
-
-						if result then
-							table.insert(paths, result)
-						end
-					end
-				end
-			end
-
-
+function get_empty_quadrants(quadrant_data)
+	local empty = 0
+	for i = 1, 4 do
+		if quadrant_data[i] == 0 then
+			empty = empty + 1
 		end
 	end
-
-	print("Paths found between rooms: " .. #paths)
-
-	return trimmed, quadrants
+	
+	return empty
 end
 
 local function print_map(game_map)
@@ -425,71 +349,136 @@ local function print_map(game_map)
 	end
 end
 
-
-local function init()
-
-
-	local start_time = os.clock() 
-	local map_vectors, quadrants = generate_map(ROOMS) 
-
-	print(
-		"Q1: " ..
-			tostring(quadrants[1]) ..
-			", Q2: " ..
-			tostring(quadrants[2]) .. ", Q3: " .. tostring(quadrants[3]) .. ", Q4: " .. tostring(quadrants[4])
-	)
-
-	local end_time = os.clock() 
-
-	print(string.format("Generated map in %.2f ms:", (end_time - start_time) * 1000 )) 
-
-	if ROBLOX then
-		local mapModel = Instance.new("Model")
-		mapModel.Name = "Map"
+local function visualize_map(map_vectors)
+	local mapModel = Instance.new("Model")
+	mapModel.Name = "Map"
 
 
-		for row, row_data in ipairs(map_vectors) do
-			for column, column_data in ipairs(row_data) do
-				local status = map_vectors[row][column][3]
-				--if status == "." and render_empty_space == false then
-				--	continue
-				--end
-				local obj = Instance.new("Part", mapModel)
-				obj.Size = Vector3.new(1, 1, 1)
-				obj.Anchored = true -- 
-				obj.Position = Vector3.new(map_vectors[row][column][1], 1, map_vectors[row][column][2])
-
-				-- Customize the part based on status
-				if status == "#" then
-					obj.Color = Color3.new(1, 1, 1)
-					obj.Size = Vector3.new(1, 25, 1)
-				elseif status == "/" then
-					obj.Color = Color3.new(1, 0, 0)
-				end
-
-				obj.Parent = mapModel
-
-
+	for row, row_data in ipairs(map_vectors) do
+		for column, column_data in ipairs(row_data) do
+			local status = map_vectors[row][column][3]
+			if status == "." and render_empty_space == false then
+				continue
 			end
+			local obj = Instance.new("Part", mapModel)
+			obj.Size = Vector3.new(1, 1, 1)
+			obj.Anchored = true -- 
+			obj.Position = Vector3.new(map_vectors[row][column][1], 1, map_vectors[row][column][2])
+
+			-- Customize the part based on status
+			if status == "#" then
+				obj.Color = Color3.new(1, 1, 1)
+				obj.Size = Vector3.new(1, 25, 1)
+			elseif status == "/" then
+				obj.Color = Color3.new(1, 0, 0)
+			end
+
+			obj.Parent = mapModel
+
+
 		end
-
-
-		local roof = Instance.new("Part")
-		roof.Size = Vector3.new(map_size, 1, map_size)
-		roof.Position = Vector3.new(map_vectors[1][1][1], 25, map_vectors[1][1][2])
-		roof.Anchored = true -- Unanchor for welding
-		roof.Transparency = 0.5
-		roof.Name = "Roof"
-		roof.Parent = mapModel
-
-
-		-- Parent the entire model to the workspace
-		mapModel.Parent = game.Workspace.World
-
-
-	else
-		print_map(map_vectors)
 	end
+
+
+	-- Parent the entire model to the workspace
+	mapModel.Parent = game.Workspace.World	
 end
 
-init()
+local function generate_map(ROOMS)
+	local raw_map = {}                                             -- rooms will be drawn to this array
+	local room_contents = {}                                       -- this will contain the vectors occupied by their respective room
+
+	set_default_map(raw_map)                                       -- reset the map to be all empty
+
+	for ROOM_ITERATION = 1, ROOMS do                               -- for each room
+		
+		local quadrant_data = enum_map_quadrants(raw_map)          -- returns array showing how many parts take up each quadrant of the map
+		local priority = returnMin(quadrant_data)                  -- gets the least populated quadrant to prioritize it
+		
+		local empty_quadrants = get_empty_quadrants(quadrant_data) -- gets the number of quadrants that don't have anything in them
+		local room_size = rand_size()                              -- random size vector for the room
+ 
+ 
+
+		                                                           -- array of vectors that make up a new room for the map
+		local vector_array = generate_room_vectors(raw_map, room_size, priority, empty_quadrants > 1, ROOM_ITERATION, room_contents)
+		
+		
+		
+		                                                           -- draw the room's vectors onto the raw map array
+		draw_vectors(raw_map, vector_array)
+	end
+
+
+    -----------------------------------------------------------------------------------------------------------------------------------------
+
+	local carved_map = carve_and_trim_map(raw_map)                 -- establishes room's walls & the edge of the map
+	
+	local quadrants = enum_map_quadrants(carved_map)               -- get the distribution of the map throughout 4 quadrants
+	local exp_walls = get_exposed_walls(carved_map, room_contents) -- gets an array for each room, of wall vectors that are exposed on the outside
+
+
+	for room = 1, #exp_walls do
+		print("Room " .. room .. " exposed walls: " .. #exp_walls[room])
+	end
+
+
+	paths = {}                                                     -- will be used to store the possible paths halls can take between rooms
+
+	for RoomIterA = 1, #exp_walls do
+		for RoomIterB = 1, #exp_walls do
+
+			if RoomIterB ~= RoomIterA then
+				-- room A is the starting room
+				-- room B is the target room
+
+				local roomA = exp_walls[RoomIterA] 
+				local roomB = exp_walls[RoomIterB]
+
+				-- now try pathfinding from every wall 
+				for WallA = 1, #roomA do
+					for WallB = 1, #roomB do
+						local start = roomA[WallA] -- This is {x, y, v} for room A
+
+						local target = roomB[WallB] -- This is {x, y, v} for room B
+
+
+						local startx = start[1]
+						local starty = start[2]
+
+						local targetx = target[1]
+						local targety = target[2]
+
+						local result = pathfind(carved_map, {startx, starty}, {targetx, targety})
+
+						if result then
+							table.insert(paths, result)
+						end
+					end
+				end
+			end
+
+
+		end
+	end
+	
+	print("Q1: " ..tostring(quadrants[1]) ..", Q2: " ..tostring(quadrants[2]) .. ", Q3: " .. tostring(quadrants[3]) .. ", Q4: " .. tostring(quadrants[4]))
+	print("Paths found between rooms: " .. #paths)
+
+	return carved_map
+end
+
+
+
+local map_vectors = generate_map(ROOMS) 
+local end_time = os.clock() 
+
+print(string.format("Generated map in %.2f ms:", (end_time - start_time) * 1000 )) 
+
+if ROBLOX then
+	visualize_map(map_vectors)
+else
+	print_map(map_vectors)
+end
+
+
