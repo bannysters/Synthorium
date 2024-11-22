@@ -48,7 +48,7 @@ Started writing my own lua code to automatically generate a simple room of a ran
 
 # Day 4 (Nov 20 2024)
 
-Scripted in room branching, randomization, & quadrant normalization. The code will now generate a good-looking map of any size, and will either print in the console or actually build itself if ran in roblox. It's very efficient (only takes about 5ms to generate a 200x200 map)
+Scripted in room branching, randomization, & quadrant normalization. The code will now generate a good-looking map of any size, and will either print in the console or actually build itself if ran in roblox. Rooms are balanced throughout the map and create convincing shapes. It's very efficient (5ms to generate a 200x200 map)
 
 Uploaded the source (map_generation.lua) to this repo 
 
