@@ -55,3 +55,7 @@ Uploaded the source (map_generation.lua) to this repo
 # Day 5 (Nov 21 2024)
 
 Optimized and cleaned code (ALOT). Added functionality to build a list of walls for each room that are exposed on the outside. I'll use that later for pathfinding to make hallways.
+
+# Day 6 (Nov 22 2024)
+
+Scripted a map scaling function, which scales the map down by about 2.5x into simpler nodes. Implemented this function to run faster pathfinding. Wrote a pathfinding function to find all possible connections between all rooms.
