@@ -1,10 +1,13 @@
-local map_size = 500             -- in studs
+local map_size = 50             -- in studs
 local ROOMS = 10                 -- amount of rooms (10 is usually fine)
-local ROBLOX = true              -- enable if using in roblox studio
+local ROBLOX = false             -- enable if using in roblox studio
 
 local branching_chance = 1/5     -- chance that a room being generated will have branches off of it
 local BRANCHES_MIN = 4           -- minimum branch partitions
 local BRANCHES_MAX = 8           -- maximum branch partitions
+
+local hall_scaling_factor = map_size / 20
+
 
 local render_empty_space = false -- whether or not to render empty floorspace in roblox
 
@@ -36,12 +39,12 @@ local function carve_and_trim_map(game_map)
 		end
 	end
 
-	for i = 1, map_size do
-		temp[i][1][3] = "#"
-		temp[1][i][3] = "#"
-		temp[i][map_size][3] = "#"
-		temp[map_size][i][3] = "#"
-	end
+	--for i = 1, map_size do
+	--	temp[i][1][3] = "#"
+	--	temp[1][i][3] = "#"
+	--	temp[i][map_size][3] = "#"
+	--	temp[map_size][i][3] = "#"
+	--end
 
 	return temp
 end
@@ -163,7 +166,7 @@ local function add_branch(game_map, vector_list, room_size_x, room_size_y, room_
 			for x = branch_origin_x, branch_origin_x + branch_size_x - 1 do
 				for y = branch_origin_y, branch_origin_y + branch_size_y - 1 do
 					if x >= 1 and x <= map_size and y >= 1 and y <= map_size then
-						overlap = game_map[y][x][3] == "#" or game_map[y][x][3] == "/"
+						overlap = game_map[x][y][3] == "#" or game_map[x][y][3] == "/"
 						if overlap then break end
 					end
 				end
@@ -216,7 +219,7 @@ local function generate_room_vectors(game_map, room_size, priority, ignore_prior
 		for x = origin_x, origin_x + room_size_x - 1 do
 			for y = origin_y, origin_y + room_size_y - 1 do
 				if x >= 1 and x <= map_size and y >= 1 and y <= map_size then
-					if not ((game_map[y][x][3] == "#" or game_map[y][x][3] == "/") and not has_branches)then
+					if not ((game_map[x][y][3] == "#" or game_map[x][y][3] == "/") and not has_branches)then
 						table.insert(vector_list, {x, y, "#"})
 					end
 				end
@@ -300,15 +303,116 @@ local function get_exposed_walls(game_map, room_contents)
 	return exposed_walls
 end
 
-function pathfind(map, start, target)
-	local startx = start[1]
-	local starty = start[2]
+function compress_map(map)
+    local scaled_map = {}
+    local scaled_section_values = {}
 
-	local targetx = target[1]
-	local targety = target[2]
-	-- print("Pathfinding from ("..startx..", "..starty..") to ("..targetx..", "..targety..")")
-	
-	return nil
+    -- Iterate over the original map to populate scaled_section_values
+    for x = 1, #map do
+        for y = 1, #map[x] do
+            local scaled_x = math.ceil(x / hall_scaling_factor)
+            local scaled_y = math.ceil(y / hall_scaling_factor)
+
+            -- Initialize the scaled_section_values if it doesn't exist
+            if not scaled_section_values[scaled_x] then
+                scaled_section_values[scaled_x] = {}
+            end
+            
+            if not scaled_section_values[scaled_x][scaled_y] then
+                scaled_section_values[scaled_x][scaled_y] = {}
+            end
+
+            -- Add the value to the scaled section
+            if map[x][y][3] == "." then 
+                table.insert(scaled_section_values[scaled_x][scaled_y], '.')
+            else 
+                table.insert(scaled_section_values[scaled_x][scaled_y], '#')
+            end
+
+            --print("Coordinate (" .. x .. ", " .. y .. ") scales to (" .. scaled_x .. ", " .. scaled_y .. ")") 
+        end
+    end
+
+    -- Create the scaled_map based on the aggregated values in scaled_section_values
+    for scaled_x = 1, #scaled_section_values do
+        scaled_map[scaled_x] = {}
+        for scaled_y = 1, #scaled_section_values[scaled_x] do
+            local value = "."
+
+            -- Determine the value for the scaled map based on the aggregated values
+            if scaled_section_values[scaled_x][scaled_y] then
+                for entry = 1, #scaled_section_values[scaled_x][scaled_y] do
+                    if scaled_section_values[scaled_x][scaled_y][entry] == "#" then
+                        value = "#" 
+                        break -- No need to check further if we already found a wall
+                    end
+                end
+            end
+
+            scaled_map[scaled_x][scaled_y] = value
+        end
+    end
+
+    return scaled_map
+end
+
+function pathfind(map, start, target)
+    local function get_openings(pos)
+        local x = pos[1]
+        local y = pos[2]
+        
+        local openings = {}
+        if map[x + 1] and map[x + 1][y] == '.' then table.insert(openings, {x + 1, y}) end
+        if map[x - 1] and map[x - 1][y] == '.' then table.insert(openings, {x - 1, y}) end
+        if map[x][y + 1] and map[x][y + 1] == '.' then table.insert(openings, {x, y + 1}) end
+        if map[x][y - 1] and map[x][y - 1] == '.' then table.insert(openings, {x, y - 1}) end
+
+        return openings
+    end
+
+    local startx = start[1]
+    local starty = start[2]
+    local targetx = target[1]
+    local targety = target[2]
+
+    local stack = {{startx, starty}}
+    local visited = {}
+    local parent = {}
+    visited[startx .. "," .. starty] = true
+
+    while #stack > 0 do
+        local curr_pos = table.remove(stack)
+        local curr_x = curr_pos[1]
+        local curr_y = curr_pos[2]
+
+        -- Check if we have reached the target
+        if curr_x == targetx and curr_y == targety then
+            -- Reconstruct the path
+            local path = {}
+            local pos = {curr_x, curr_y}
+            while pos do
+                table.insert(path, 1, pos)  -- Insert at the beginning to reverse the path
+                pos = parent[pos[1] .. "," .. pos[2]]
+            end
+            return path  -- Return the reconstructed path
+        end
+
+        local openings = get_openings(curr_pos)
+
+        for _, next_pos in ipairs(openings) do
+            local next_x = next_pos[1]
+            local next_y = next_pos[2]
+
+            -- If this position hasn't been visited yet
+            if not visited[next_x .. "," .. next_y] then
+                visited[next_x .. "," .. next_y] = true
+                parent[next_x .. "," .. next_y] = curr_pos  -- Record the parent position
+                table.insert(stack, next_pos)  -- Add to stack for further exploration
+            end
+        end
+    end
+    
+    return nil  -- Return nil if no path is found
 end
 
 function get_empty_quadrants(quadrant_data)
@@ -347,6 +451,17 @@ local function print_map(game_map)
 	end
 end
 
+local function print_scaled_map(game_map)
+    for y = 1, #game_map do  -- Change to iterate over y first
+        for x = 1, #game_map[y] do  -- Then iterate over x
+            local text = string.format("%s ", game_map[x][y])
+
+            io.write(text)
+        end
+        io.write("\n")
+    end
+end
+
 local function visualize_map(map_vectors)
 	local mapModel = Instance.new("Model")
 	mapModel.Name = "Map"
@@ -355,9 +470,9 @@ local function visualize_map(map_vectors)
 	for row, row_data in ipairs(map_vectors) do
 		for column, column_data in ipairs(row_data) do
 			local status = map_vectors[row][column][3]
-			if status == "." and render_empty_space == false then
-				continue
-			end
+			--if status == "." and render_empty_space == false then
+			--	continue
+			--end
 			local obj = Instance.new("Part", mapModel)
 			obj.Size = Vector3.new(1, 1, 1)
 			obj.Anchored = true -- 
@@ -415,11 +530,14 @@ local function generate_map(ROOMS)
 	local exp_walls = get_exposed_walls(carved_map, room_contents) -- gets an array for each room, of wall vectors that are exposed on the outside
 
 
-	for room = 1, #exp_walls do
-		print("Room " .. room .. " exposed walls: " .. #exp_walls[room])
-	end
+	--for room = 1, #exp_walls do
+	--	print("Room " .. room .. " exposed walls: " .. #exp_walls[room])
+	--end
 
+	local scaled_map = compress_map(carved_map)
+	print_scaled_map(scaled_map)
 
+	
 	paths = {}                                                     -- will be used to store the possible paths halls can take between rooms
 
 	for RoomIterA = 1, #exp_walls do
@@ -440,13 +558,15 @@ local function generate_map(ROOMS)
 						local target = roomB[WallB] -- This is {x, y, v} for room B
 
 
-						local startx = start[1]
-						local starty = start[2]
+						local startx = math.ceil(start[1] / hall_scaling_factor)
+						local starty = math.ceil(start[2] / hall_scaling_factor)
 
-						local targetx = target[1]
-						local targety = target[2]
+						local targetx = math.ceil(target[1] / hall_scaling_factor)
+						local targety = math.ceil(target[2] / hall_scaling_factor)
 
-						local result = pathfind(carved_map, {startx, starty}, {targetx, targety})
+						
+
+						local result = pathfind(scaled_map, {startx, starty}, {targetx, targety})
 
 						if result then
 							table.insert(paths, result)
@@ -472,10 +592,9 @@ local end_time = os.clock()
 
 print(string.format("Generated map in %.2f ms:", (end_time - start_time) * 1000 )) 
 
+
 if ROBLOX then
 	visualize_map(map_vectors)
 else
 	print_map(map_vectors)
 end
-
-
