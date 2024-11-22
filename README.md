@@ -18,7 +18,7 @@
   -   `Make the game replayable, fun with friends, and rewarding`
 
 
-## Gameplay loop:
+## Idea of Gameplay loop (will change as I progress):
   -   Lobby place will be prebuilt, the user can either random queue into a party or host their own party and load into a game.
   -   Send the party to a new instance of the actual game server.
   -   Everyone loads into a room, they're each asked a set of questions by an LLM, then the LLM takes the responses and generates elements/text to use later in game.
