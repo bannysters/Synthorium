@@ -2,12 +2,13 @@
 
 
 ## Goals (before first version):
-- ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png) `#Build base map generation algorithm `
-  -   Add pathfinding for hallways in the map generation algo
-  -   Build AI decoration algorithm to create convincing rooms w/ textures as well.
-  -   Add AI gameplay dynamics like backstories, text on walls, etc to make gameplay trippy/liminal. 
-  -   Figure out what the actual goal of the game will be & implement it
-  -   Build the Lobby & pre-game scene.
+  - ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png) `Build base map generation algorithm `
+  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `Add pathfinding for hallways in the map generation algo`
+  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `Build AI decoration algorithm to create convincing rooms w/ textures as well.`
+  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `Add AI gameplay dynamics like backstories, text on walls, etc to make gameplay trippy/liminal. `
+  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `Figure out what the actual goal of the game will be & implement it`
+  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `Build the Lobby & pre-game scene.`
+
   
 ## Goals (after first version):
   -   Make sure every aspect of the game is unique to its own session
