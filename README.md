@@ -2,20 +2,20 @@
 
 
 ## Goals (before first version):
-  - ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png) `1. Build base map generation algorithm `
-  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `2. Add pathfinding for hallways in the map generation algo`
-  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `3. Build AI decoration algorithm to create convincing rooms w/ textures as well.`
-  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `4. Add AI gameplay dynamics like backstories, text on walls, etc to make gameplay trippy/liminal. `
-  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `5. Figure out what the actual goal of the game will be & implement it`
-  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `6. Build the Lobby & pre-game scene.`
-  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `7. Put everything together`
+  - ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png) `Build base map generation algorithm `
+  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `Add pathfinding for hallways in the map generation algo`
+  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `Build AI decoration algorithm to create convincing rooms w/ textures as well.`
+  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `Add AI gameplay dynamics like backstories, text on walls, etc to make gameplay trippy/liminal. `
+  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `Figure out what the actual goal of the game will be & implement it`
+  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `Build the Lobby & pre-game scene.`
+  - ![#f03c15](https://placehold.co/15x15/f03c15/f03c15.png) `Put everything together`
 
   
 ## Goals (after first version):
-  -   Make sure every aspect of the game is unique to its own session
-  -   Make sure it takes inspiration from FNAF games/The Backrooms.
-  -   Introduce unique collectibles and achievements to encourage exploration.
-  -   Make the game replayable, fun with friends, and rewarding
+  -   `Make sure every aspect of the game is unique to its own session`
+  -   `Make sure it takes inspiration from FNAF games/The Backrooms.`
+  -   `Introduce unique collectibles and achievements to encourage exploration.`
+  -   `Make the game replayable, fun with friends, and rewarding`
 
 
 ## Gameplay loop:
