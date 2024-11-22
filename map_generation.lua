@@ -219,8 +219,6 @@ local function generate_room_vectors(game_map, room_size, priority, ignore_prior
 					if not ((game_map[y][x][3] == "#" or game_map[y][x][3] == "/") and not has_branches)then
 						table.insert(vector_list, {x, y, "#"})
 					end
-
-
 				end
 			end
 		end
@@ -394,12 +392,11 @@ local function generate_map(ROOMS)
 		
 		local quadrant_data = enum_map_quadrants(raw_map)          -- returns array showing how many parts take up each quadrant of the map
 		local priority = returnMin(quadrant_data)                  -- gets the least populated quadrant to prioritize it
-		
 		local empty_quadrants = get_empty_quadrants(quadrant_data) -- gets the number of quadrants that don't have anything in them
+		
 		local room_size = rand_size()                              -- random size vector for the room
  
  
-
 		                                                           -- array of vectors that make up a new room for the map
 		local vector_array = generate_room_vectors(raw_map, room_size, priority, empty_quadrants > 1, ROOM_ITERATION, room_contents)
 		
