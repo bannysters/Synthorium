@@ -526,6 +526,8 @@ local function generate_map(ROOMS)
 
 	local carved_map = carve_and_trim_map(raw_map)                 -- establishes room's walls & the edge of the map
 	local quadrants = enum_map_quadrants(carved_map)               -- get the distribution of the map throughout 4 quadrants
+	local exp_walls = get_exposed_walls(carved_map, room_contents) -- gets an array for each room, of wall vectors that are exposed on the outside
+
 
 
 	--for room = 1, #exp_walls do
@@ -534,10 +536,7 @@ local function generate_map(ROOMS)
 
 	local scaled_map = compress_map(carved_map)
 	print_scaled_map(scaled_map)
-	local exp_walls = get_exposed_walls(scaled_map, room_contents) -- gets an array for each room, of wall vectors that are exposed on the outside
 
-
-	
 	
 	paths = {}                                                     -- will be used to store the possible paths halls can take between rooms
 
@@ -559,11 +558,11 @@ local function generate_map(ROOMS)
 						local target = roomB[WallB] -- This is {x, y, v} for room B
 
 
-						local startx = math.ceil(start[1])
-						local starty = math.ceil(start[2])
+						local startx = math.ceil(start[1] / hall_scaling_factor)
+						local starty = math.ceil(start[2] / hall_scaling_factor)
 
-						local targetx = math.ceil(target[1])
-						local targety = math.ceil(target[2])
+						local targetx = math.ceil(target[1] / hall_scaling_factor)
+						local targety = math.ceil(target[2] / hall_scaling_factor)
 
 						
 
