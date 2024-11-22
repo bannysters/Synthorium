@@ -2,7 +2,7 @@
 
 
 ## Goals (before first version):
-DONE  -   Build base map generation algorithm 
+- ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png) `#Build base map generation algorithm `
   -   Add pathfinding for hallways in the map generation algo
   -   Build AI decoration algorithm to create convincing rooms w/ textures as well.
   -   Add AI gameplay dynamics like backstories, text on walls, etc to make gameplay trippy/liminal. 
