@@ -1,5 +1,8 @@
-## This is the documentation of my progress and thought process while creating my horror game
-
+## This github serves as documentation of progress on my procedurally generated horror game.
+## What does that entail?
+1. From-scratch map generation algorithm
+2. AI integration and automation for storylines
+3. Complex map decoration
 
 ## Goals (before first version):
   - ![#c5f015](https://placehold.co/15x15/c5f015/c5f015.png) `Build base map generation algorithm `
