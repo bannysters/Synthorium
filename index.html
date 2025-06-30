@@ -75,7 +75,7 @@
 
     <script>
         async function fetchReadme() {
-            const response = await fetch('https://raw.githubusercontent.com/nevolua/Synthorium/refs/heads/main/README.md');
+            const response = await fetch('https://raw.githubusercontent.com/bannysters/Synthorium/refs/heads/main/README.md');
             const text = await response.text();
             document.getElementById('readme-content').innerHTML = marked(text);
         }
