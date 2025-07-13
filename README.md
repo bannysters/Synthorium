@@ -56,7 +56,6 @@ Started writing my own lua code to automatically generate a simple room of a ran
 
 Scripted in room branching, randomization, & quadrant normalization. The code will now generate a good-looking map of any size, and will either print in the console or actually build itself if ran in roblox. Rooms are balanced throughout the map and create convincing shapes. It's very efficient (5ms to generate a 200x200 map)
 
-Uploaded the source (map_generation.lua) to this repo 
 
 # Day 5 (Nov 21 2024)
 
@@ -70,4 +69,4 @@ Scripted a map scaling function, which scales the map down by about 2.5x into si
 
 # Day 7 (July 13 2025)
 
-Came back to old map generation code and used AI (sure chatgpt skid) to refactor and optimize my old code. Obviously this wouldn't be possible without me having written the code in the first place, so it's not like my algorithm is ai generated, just ai optimized. I integrated it into a new roblox studio map, then wrote an anticheat that detects speedhacks and noclipping, as well as obfuscating some instance names.
+Came back to old map generation code and used AI (sure chatgpt skid) to refactor and optimize my old code. Fixed pathfinding with the help of an ai coding assistant, fixed some really dumb bugs in my code, and finally got hallways to work. Obviously this wouldn't be possible without me having written the code in the first place, so it's not like my algorithm is ai generated, just ai optimized. I integrated it into a new roblox studio map, then wrote an anticheat that detects speedhacks and noclipping, as well as obfuscating some instance names.
