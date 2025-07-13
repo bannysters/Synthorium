@@ -1,6 +1,3 @@
-# This is old and I have paused development of this game but will eventually come back to it.
-
-
 ## This github serves as documentation of progress on my procedurally generated horror game.
 ## What does that entail?
 1. From-scratch map generation algorithm
