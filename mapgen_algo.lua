@@ -1,5 +1,3 @@
--- Roblox procedural map generator with dynamic room decoration and automatic spawnpoints
-
 local map_size = 500
 local ROOMS = 10
 local ROBLOX = true
