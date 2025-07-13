@@ -62,6 +62,10 @@ Uploaded the source (map_generation.lua) to this repo
 
 Optimized and cleaned code (ALOT). Added functionality to build a list of walls for each room that are exposed on the outside. I'll use that later for pathfinding to make hallways.
 
+# Day 6 (July 13 2025)
+
+Came back to old map generation code and used AI (sure chatgpt skid) to refactor and optimize my old code. Obviously this wouldn't be possible without me having written the code in the first place, so it's not like my algorithm is ai generated, just ai optimized. I integrated it into a new roblox studio map, then wrote an anticheat that detects speedhacks and noclipping, as well as obfuscating some instance names.
+
 # Day 6 (Nov 22 2024)
 
 Scripted a map scaling function, which scales the map down by about 2.5x into simpler nodes. Implemented this function to run faster pathfinding. Wrote a pathfinding function to find all possible connections between all rooms.
